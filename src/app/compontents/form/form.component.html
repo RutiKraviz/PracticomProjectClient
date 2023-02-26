@@ -1,0 +1,69 @@
+<app-home></app-home>
+<form name="myForm" #myForm="ngForm" id="f">
+    <div class="parent">
+        <mat-form-field appearance="fill">
+            <mat-label> ת.ז: </mat-label>
+            <input matInput type="text" name="tz" placeholder="tz" [(ngModel)]="userService.myUser.Tz" maxlength="9"
+                minlength="9" pattern="[0-9]+" #tz="ngModel" required>
+        </mat-form-field>
+        <p *ngIf="tz.touched && tz.invalid" class="error"> tz is not valid!</p>
+        <mat-form-field appearance="fill">
+            <mat-label> שם פרטי: </mat-label>
+            <input matInput type="text" name="fName" placeholder="{{userService.myUser.FirstName}}"
+                [(ngModel)]="userService.myUser.FirstName" pattern="[a-zA-Zא-ת ]*" #fName="ngModel" required />
+        </mat-form-field>
+        <p *ngIf="fName.touched && fName.invalid" class="error"> first name is required! </p>
+        <mat-form-field appearance="fill">
+            <mat-label> שם משפחה: </mat-label>
+            <input matInput type="text" name="lName" placeholder="{{userService.myUser.LastName}}"
+                [(ngModel)]="userService.myUser.LastName" #lName="ngModel" required />
+            <p *ngIf="lName.touched && lName.invalid" class="error"> last name is required! </p>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label> תאריך לידה: </mat-label>
+            <input matInput type="date" name="dob" [(ngModel)]="userService.myUser.BirthDate" #dob="ngModel"
+                min="1923-01-01" max="2023-01-01" required />
+        </mat-form-field>
+        <p *ngIf="dob.touched && dob.invalid" class="error">date of birth is not valid!</p>
+        <mat-form-field appearance="fill">
+            <mat-label> מין:</mat-label>
+            <mat-select [(ngModel)]="userService.myUser.eGender" name="gender" #gender="ngModel" required>
+                <mat-option [value]="1">זכר</mat-option>
+                <mat-option [value]="2">נקבה</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>קופת חולים: </mat-label>
+            <mat-select [(ngModel)]="userService.myUser.eHmo" name="hmo" required>
+                <mat-option [value]="1">מכבי</mat-option>
+                <mat-option [value]="2">מאוחדת</mat-option>
+                <mat-option [value]="3">לאומית</mat-option>
+                <mat-option [value]="4">כללית</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <h2>הוספת ילדים</h2>
+    <div class="child">
+        <mat-form-field appearance="fill">
+            <mat-label>ת.ז ילד:</mat-label>
+            <input matInput type="text" name="childTz" [(ngModel)]="userService.myChild.Tz" maxlength="9"
+                placeholder="child id" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>שם מלא:</mat-label>
+            <input matInput type="text" name="childName" [(ngModel)]="userService.myChild.FullName"
+                placeholder="full child name" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>תאריך לידה:</mat-label>
+            <input matInput type="date" name="childBD" [(ngModel)]="userService.myChild.BirthDate" #childBD="ngModel" />
+        </mat-form-field>
+        <div>
+            <button mat-raised-button class="example-button-row" color="accent" (click)="addNewChild()">הוספת ילד</button>
+        </div>
+
+        <div>
+            <button type="submit" mat-raised-button class="example-button-row" color="accent" (click)="addUser();  generateExcel()" [disabled]="!myForm.valid">שמירה</button>
+        </div>
+    </div>
+</form>
